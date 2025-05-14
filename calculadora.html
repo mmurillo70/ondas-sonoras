@@ -1,0 +1,273 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="stylesheet" href="style.css">
+  <title>Calculadora de Ondas Sonoras</title>
+  <!-- Fuente moderna -->
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;600&display=swap" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+
+<body>
+  <div class="container" id="main-container">
+    <h1>Calculadora de Ondas Sonoras</h1>
+
+    <p>La calculadora de ondas sonoras es una herramienta diseñada para calcular:</p>
+    <ul>
+      <li>
+        <a href="#amplitud-presion">
+          Amplitud de presión
+        </a>
+      </li>
+      <li>
+        <a href="#onda-sonora">
+          Rapidez de onda sonora
+        </a>
+      </li>
+      <li>
+        <a href="#rapidez-sonido-solido">
+          Rapidez del sonido en un sólido
+        </a>
+      </li>
+    </ul>
+
+    <h2>¿Qué es una onda sonora?</h2>
+    <p>
+      Es una perturbación mecánica que se propaga a través de un medio como el aire, el agua o un sólido,
+      transportando energía y sonido. Se produce por la vibración de las moléculas en un medio
+      y se caracteriza por su frecuencia, amplitud y longitud de onda.
+    </p>
+
+    <h2>Representación gráfica de una onda sonora</h2>
+    <img src="onda-sonora.jpg" alt="Onda Sonora">
+    <p>
+      En la imagen se muestran distintas representaciones gráficas de ondas sonoras. Cada una de estas formas representa
+      cómo varía la presión del aire (o de otro medio) con el tiempo al propagarse el sonido. Las gráficas más
+      irregulares representan sonidos complejos como la voz humana o la música, mientras que las más simétricas y
+      repetitivas suelen representar tonos puros o sonidos constantes.
+    </p>
+
+    <p>
+      Estas formas de onda permiten analizar características del sonido como la frecuencia (qué tan agudo o grave es),
+      la amplitud (qué tan fuerte es el sonido) y su forma general (que indica si es un tono puro o complejo). Este tipo
+      de visualizaciones son comunes en programas de edición de audio y ayudan a comprender cómo viaja y se comporta el
+      sonido.
+    </p>
+    <section class="info-sonido">
+      <h2>¿Cómo identificar si un sonido es agudo, grave o complejo?</h2>
+
+      <div class="tarjeta">
+        <h3>🔊 Frecuencia</h3>
+        <p><strong>Sonido agudo:</strong> Alta frecuencia. Las ondas están muy juntas. Ejemplo: silbido.</p>
+        <p><strong>Sonido grave:</strong> Baja frecuencia. Las ondas están más separadas. Ejemplo: tambor.</p>
+      </div>
+
+      <div class="tarjeta">
+        <h3>🎵 Complejidad</h3>
+        <p><strong>Tono puro:</strong> Forma de onda regular y suave. Ejemplo: nota de diapasón.</p>
+        <p><strong>Sonido complejo:</strong> Forma de onda irregular con muchos picos. Ejemplo: voz humana o música
+          real.</p>
+      </div>
+
+      <div class="tarjeta">
+        <h3>👁️ En la imágen puedes ver</h3>
+        <p>Las ondas irregulares representan sonidos complejos. Las ondas con patrón claro y repetitivo son más puras.
+          Las más comprimidas son agudas, y las más anchas, graves.</p>
+      </div>
+    </section>
+
+    <section class="prueba-sonido">
+      <h2>🔈 Prueba de sonido</h2>
+      <p>
+        A continuación, puedes reproducir un sonido para observar cómo se comporta una onda sonora al escucharse.
+        Usa el control de volumen para ajustar la intensidad del sonido y experimenta cómo cambia la percepción
+        auditiva.
+      </p>
+      <p>
+        Esta prueba permite relacionar la teoría de las ondas con la experiencia sensorial del sonido: si subes el
+        volumen, notarás un aumento en la amplitud de la onda, lo que representa un sonido más fuerte.
+      </p>
+      <audio id="audio" src="sonido.mp3" preload="auto"></audio>
+      <button onclick="document.getElementById('audio').play()">🔊 Reproducir sonido</button>
+
+      <label for="volumen">Volumen:</label>
+      <input type="range" id="volumen" min="0" max="1" step="0.01" value="0.5" />
+  </div>
+
+  <script>
+    const audio = document.getElementById("audio");
+    const volumen = document.getElementById("volumen");
+
+    volumen.addEventListener("input", function () {
+      audio.volume = this.value;
+    });
+  </script>
+  </section>
+  <!-- Sección para gráfica personalizada de onda -->
+  <section class="grafica-seno">
+    <h2>📈 Crea tu propia onda sinusoidal</h2>
+    <p>Ingresa valores para generar una onda personalizada y observa cómo cambia su forma en tiempo real.</p>
+
+    <label for="frecuencia">Frecuencia (Hz):</label>
+    <input type="number" id="frecuencia" value="1" min="0.1" step="0.1"><br>
+
+    <label for="amplitud">Amplitud:</label>
+    <input type="number" id="amplitud" value="1" min="0.1" step="0.1"><br>
+
+    <label for="fase">Fase (radianes):</label>
+    <input type="number" id="fase" value="0" step="0.1"><br><br>
+
+    <canvas id="graficoOnda" width="600" height="300"></canvas>
+  </section>
+  <section class="calculadora-sonora grafica-seno">
+    <h2>🧮 Calculadora de ondas sonoras</h2>
+    <p>Completa los campos necesarios para calcular diferentes propiedades del sonido. Los resultados se actualizan
+      automáticamente.</p>
+
+    <div class="calculo" id="amplitud-presion">
+      <h3>📌 Amplitud de presión</h3>
+      <label for="densidad">Densidad del medio (kg/m³):</label>
+      <input type="number" id="densidad" step="0.1" value="1.2">
+
+      <label for="velocidad">Velocidad del sonido (m/s):</label>
+      <input type="number" id="velocidad" step="0.1" value="343">
+
+      <label for="amplitud">Amplitud de la onda (m):</label>
+      <input type="number" id="amplitudOnda" step="0.01" value="0.01">
+
+      <p><strong>Resultado:</strong> <span id="resultadoPresion">-</span> Pa</p>
+    </div>
+
+    <hr style="margin: 2rem 0;">
+
+    <div class="calculo" id="onda-sonora">
+      <h3>📌 Rapidez de onda sonora</h3>
+      <label for="frecuencia2">Frecuencia (Hz):</label>
+      <input type="number" id="frecuencia2" step="0.1" value="440">
+
+      <label for="longitud">Longitud de onda (m):</label>
+      <input type="number" id="longitud" step="0.01" value="0.78">
+
+      <p><strong>Resultado:</strong> <span id="resultadoRapidez">-</span> m/s</p>
+    </div>
+
+    <hr style="margin: 2rem 0;">
+
+    <div class="calculo" id="rapidez-sonido-solido">
+      <h3>📌 Rapidez del sonido en un sólido</h3>
+      <label for="modulo">Módulo de Young (Pa):</label>
+      <input type="number" id="modulo" step="1000000" value="2e11">
+
+      <label for="densidadSolido">Densidad del sólido (kg/m³):</label>
+      <input type="number" id="densidadSolido" step="10" value="7800">
+
+      <p><strong>Resultado:</strong> <span id="resultadoSolido">-</span> m/s</p>
+    </div>
+  </section>
+
+  <a href="#main-container" id="back-to-main">
+    Volver al inicio
+  </a>
+
+
+  <script>
+    const ctx = document.getElementById('graficoOnda').getContext('2d');
+
+    const generateSineData = (freq, amp, phase, samples = 100) => {
+      const labels = [];
+      const data = [];
+      for (let i = 0; i < samples; i++) {
+        const t = i / samples * 2 * Math.PI;
+        labels.push(t.toFixed(2));
+        data.push(amp * Math.sin(freq * t + phase));
+      }
+      return { labels, data };
+    };
+
+    const initial = generateSineData(1, 1, 0);
+
+    const chart = new Chart(ctx, {
+      type: 'line',
+      data: {
+        labels: initial.labels,
+        datasets: [{
+          label: 'Onda Sinusoidal',
+          data: initial.data,
+          borderColor: 'blue',
+          fill: false,
+          tension: 0.2
+        }]
+      },
+      options: {
+        scales: {
+          x: {
+            title: { display: true, text: 'Tiempo (rad)' }
+          },
+          y: {
+            title: { display: true, text: 'Amplitud' }
+          }
+        }
+      }
+    });
+
+    const actualizarGrafica = () => {
+      const freq = parseFloat(document.getElementById('frecuencia').value);
+      const amp = parseFloat(document.getElementById('amplitud').value);
+      const phase = parseFloat(document.getElementById('fase').value);
+      const { labels, data } = generateSineData(freq, amp, phase);
+      chart.data.labels = labels;
+      chart.data.datasets[0].data = data;
+      chart.update();
+    };
+    // Cálculo de Amplitud de presión: p = ρ × v × A
+    function calcularPresion() {
+      const rho = parseFloat(document.getElementById('densidad').value);
+      const v = parseFloat(document.getElementById('velocidad').value);
+      const A = parseFloat(document.getElementById('amplitudOnda').value);
+      const presion = rho * v * A;
+      document.getElementById('resultadoPresion').textContent = presion.toFixed(2);
+    }
+
+    // Cálculo de rapidez de onda sonora: v = λ × f
+    function calcularRapidez() {
+      const f = parseFloat(document.getElementById('frecuencia2').value);
+      const lambda = parseFloat(document.getElementById('longitud').value);
+      const rapidez = lambda * f;
+      document.getElementById('resultadoRapidez').textContent = rapidez.toFixed(2);
+    }
+
+    // Cálculo de rapidez en un sólido: v = sqrt(E / ρ)
+    function calcularSolido() {
+      const E = parseFloat(document.getElementById('modulo').value);
+      const rho = parseFloat(document.getElementById('densidadSolido').value);
+      const v = Math.sqrt(E / rho);
+      document.getElementById('resultadoSolido').textContent = v.toFixed(2);
+    }
+
+    // Escucha eventos de cambio en todos los campos de entrada
+    document.querySelectorAll('.calculadora-sonora input').forEach(input => {
+      input.addEventListener('input', () => {
+        calcularPresion();
+        calcularRapidez();
+        calcularSolido();
+      });
+    });
+
+    // Calcular valores iniciales
+    calcularPresion();
+    calcularRapidez();
+    calcularSolido();
+
+
+    document.getElementById('frecuencia').addEventListener('input', actualizarGrafica);
+    document.getElementById('amplitud').addEventListener('input', actualizarGrafica);
+    document.getElementById('fase').addEventListener('input', actualizarGrafica);
+  </script>
+
+
+</body>
+
+</html>
