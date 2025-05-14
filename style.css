@@ -169,6 +169,7 @@ body {
   
 
   ul li {
+    flex: 1 1 200px;
     color: #fff;
     padding: 1rem;
     background-color: blue;
@@ -176,11 +177,14 @@ body {
     border-radius: 10px;
     transition: transform 0.2s ease-in-out;
     transform: scale(1);
+    font-size: 1rem;
   }
   
   ul li:hover {
     transform: scale(1.1);
   }
+
+  
   
 
   ul li a {
@@ -188,6 +192,8 @@ body {
     color: #fff;
   }
   ul {
+    padding: 0;
+    flex-wrap: wrap;
     gap: 1rem;
     list-style: none;
     display: flex;
@@ -201,5 +207,5 @@ body {
     padding: 1rem;
     text-align: center;
     color: #fff;
-    font-size: 1.4rem;
+    font-size: 1.1rem;
   }
