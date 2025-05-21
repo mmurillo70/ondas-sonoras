@@ -150,12 +150,13 @@
 
     <div class="calculo" id="onda-sonora">
       <h3>📌 Rapidez de onda sonora</h3>
-      <label for="frecuencia2">Frecuencia (Hz):</label>
-      <input type="number" id="frecuencia2" step="0.1" value="440">
 
-      <label for="longitud">Longitud de onda (m):</label>
-      <input type="number" id="longitud" step="0.01" value="0.78">
-
+      <label for="moduloVolumen2">Módulo de volumen (Pa):</label>
+      <input type="number" id="moduloVolumen2" step="1000" value="142000">
+    
+      <label for="densidad">Densidad del medio (kg/m³):</label>
+      <input type="number" id="densidad" step="10" value="1.2">
+    
       <p id="resultado"><strong>Resultado:</strong> <span id="resultadoRapidez">-</span> m/s</p>
     </div>
 
@@ -236,14 +237,13 @@ function calcularPresion() {
   const presion = B * s * k;
   document.getElementById('resultadoPresion').textContent = presion.toFixed(2);
 }
-
-    // Cálculo de rapidez de onda sonora: v = λ × f
-    function calcularRapidez() {
-      const f = parseFloat(document.getElementById('frecuencia2').value);
-      const lambda = parseFloat(document.getElementById('longitud').value);
-      const rapidez = lambda * f;
-      document.getElementById('resultadoRapidez').textContent = rapidez.toFixed(2);
-    }
+// Cálculo de rapidez de onda sonora: v = sqrt(B / ρ)
+function calcularRapidez() {
+  const B = parseFloat(document.getElementById('moduloVolumen2').value);
+  const rho = parseFloat(document.getElementById('densidad').value);
+  const rapidez = Math.sqrt(B / rho);
+  document.getElementById('resultadoRapidez').textContent = rapidez.toFixed(2);
+}
 
     // Cálculo de rapidez en un sólido: v = sqrt(E / ρ)
     function calcularSolido() {
