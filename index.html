@@ -132,15 +132,16 @@
       <p><b>- seccion de cálculo de amplitud de presion:</b></p>
     <div class="calculo" id="amplitud-presion">
       <h3>📌 Amplitud de presión</h3>
-      <label for="densidad">Densidad del medio (kg/m³):</label>
-      <input type="number" id="densidad" step="0.1" value="1.2">
-
-      <label for="velocidad">Velocidad del sonido (m/s):</label>
-      <input type="number" id="velocidad" step="0.1" value="343">
-
-      <label for="amplitud">Amplitud de la onda (m):</label>
-      <input type="number" id="amplitudOnda" step="0.01" value="0.01">
-
+  
+      <label for="moduloVolumen">Módulo de volumen (Pa):</label>
+      <input type="number" id="moduloVolumen" step="1000" value="142000">
+    
+      <label for="amplitudDesplazamiento">Amplitud de desplazamiento (m):</label>
+      <input type="number" id="amplitudDesplazamiento" step="0.0001" value="0.01">
+    
+      <label for="numeroOnda">Número de onda (rad/m):</label>
+      <input type="number" id="numeroOnda" step="0.01" value="10">
+    
       <p id="resultado"><strong>Resultado:</strong> <span id="resultadoPresion">-</span> Pa</p>
     </div>
 
@@ -227,14 +228,14 @@
       chart.data.datasets[0].data = data;
       chart.update();
     };
-    // Cálculo de Amplitud de presión: p = ρ × v × A
-    function calcularPresion() {
-      const rho = parseFloat(document.getElementById('densidad').value);
-      const v = parseFloat(document.getElementById('velocidad').value);
-      const A = parseFloat(document.getElementById('amplitudOnda').value);
-      const presion = rho * v * A;
-      document.getElementById('resultadoPresion').textContent = presion.toFixed(2);
-    }
+   // Cálculo de amplitud de presión: p = B × s × k
+function calcularPresion() {
+  const B = parseFloat(document.getElementById('moduloVolumen').value);
+  const s = parseFloat(document.getElementById('amplitudDesplazamiento').value);
+  const k = parseFloat(document.getElementById('numeroOnda').value);
+  const presion = B * s * k;
+  document.getElementById('resultadoPresion').textContent = presion.toFixed(2);
+}
 
     // Cálculo de rapidez de onda sonora: v = λ × f
     function calcularRapidez() {
