@@ -289,6 +289,20 @@ document.getElementById('moduloVolumen').addEventListener('input', function () {
 document.getElementById('numeroOnda').addEventListener('input', function () {
   if (this.value < 0) this.value = 0;
 });
+//no permite que se ingresen valores negativos en el calculo en la rapidez de la onda
+document.getElementById('moduloVolumen2').addEventListener('input', function () {
+  if (this.value < 0) this.value = 0;
+});
+document.getElementById('densidad').addEventListener('input', function () {
+  if (this.value < 0) this.value = 0;
+});
+//no permite ingresar valores negativos en el calculo de la rapidez del sonido en un solido 
+document.getElementById('modulo').addEventListener('input', function () {
+  if (this.value < 0) this.value = 0;
+});document.getElementById('densidadSolido').addEventListener('input', function () {
+  if (this.value < 0) this.value = 0;
+});
+
 // Cálculo de rapidez de onda sonora: v = sqrt(B / ρ)
 function calcularRapidez() {
   const B = parseFloat(document.getElementById('moduloVolumen2').value);
