@@ -159,6 +159,7 @@
       <input type="number" id="densidad" step="10" value="1.2">
     
       <p id="resultado"><strong>Resultado:</strong> <span id="resultadoRapidez">-</span> m/s</p>
+      <canvas id="graficoRapidez" width="600" height="300"></canvas>
     </div>
 
     <hr style="margin: 2rem 0;">
@@ -304,12 +305,61 @@ document.getElementById('modulo').addEventListener('input', function () {
 });
 
 // Cálculo de rapidez de onda sonora: v = sqrt(B / ρ)
+let graficoRapidez;
+
 function calcularRapidez() {
   const B = parseFloat(document.getElementById('moduloVolumen2').value);
   const rho = parseFloat(document.getElementById('densidad').value);
-  const rapidez = Math.sqrt(B / rho);
-  document.getElementById('resultadoRapidez').textContent = rapidez.toFixed(2);
+  
+  if (rho <= 0) {
+    document.getElementById('resultadoRapidez').textContent = "Error (la densidad debe ser mayor que 0)";
+    return;
+  }
+
+  const v = Math.sqrt(B / rho);
+  document.getElementById('resultadoRapidez').textContent = v.toFixed(2);
+
+  // Crear datos de muestra para diferentes densidades, para mostrar cómo varía v
+  const labels = [];
+  const data = [];
+  for (let i = 1; i <= 100; i++) {
+    const dens = i * 0.1 + 0.1; // desde 0.2 hasta 10.1 kg/m³
+    labels.push(dens.toFixed(1));
+    data.push(Math.sqrt(B / dens));
+  }
+
+  if (graficoRapidez) {
+    graficoRapidez.data.labels = labels;
+    graficoRapidez.data.datasets[0].data = data;
+    graficoRapidez.update();
+  } else {
+    const ctxRapidez = document.getElementById('graficoRapidez').getContext('2d');
+    graficoRapidez = new Chart(ctxRapidez, {
+      type: 'line',
+      data: {
+        labels: labels,
+        datasets: [{
+          label: 'Rapidez vs Densidad',
+          data: data,
+          borderColor: 'green',
+          fill: false,
+          tension: 0.2
+        }]
+      },
+      options: {
+        scales: {
+          x: {
+            title: { display: true, text: 'Densidad (kg/m³)' }
+          },
+          y: {
+            title: { display: true, text: 'Rapidez (m/s)' }
+          }
+        }
+      }
+    });
+  }
 }
+
 
     // Cálculo de rapidez en un sólido: v = sqrt(E / ρ)
     function calcularSolido() {
