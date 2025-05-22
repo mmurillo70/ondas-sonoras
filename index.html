@@ -90,7 +90,7 @@
         
        <p>- Al bajar el volumen, se reduce la intensidad del sonido, reflejando una amplitud menor.</p> 
         
-       <p>Esta prueba sirve como un primer acercamiento para vincular la teoría con la experiencia sensorial del sonido</p> 
+       <p>Esta prueba ofrece una experiencia sensorial del sonido</p> 
       
       
       <audio id="audio" src="sonido.mp3" preload="auto"></audio>
@@ -130,9 +130,14 @@
     <p>Completa los campos necesarios para calcular diferentes propiedades del sonido. Los resultados se actualizan
       automáticamente.</p>
       <p><b>- seccion de cálculo de amplitud de presion:</b></p>
+      <p>
+        Para hallar la amplitud de presión, se necesitan los siguientes datos: el módulo de volumen, el número de onda y la amplitud de desplazamiento.
+        Estos valores se multiplican entre sí para obtener la amplitud de presión. A continuación, ingresa los datos y conoce inmediatamente el resultado.
+        Además, podrás visualizar una gráfica generada a partir de estos datos.
+        </p>
     <div class="calculo" id="amplitud-presion">
       <h3>📌 Amplitud de presión</h3>
-  
+      
       <label for="moduloVolumen">Módulo de volumen (Pa):</label>
       <input type="number" id="moduloVolumen" step="1000" value="142000" min="0">
     
@@ -148,7 +153,10 @@
 
     <hr style="margin: 2rem 0;">
     <p><b>- seccion de cálculo de rapidez de onda:</b></p>
-
+    <p>Para hallar la rapidez de una onda sonora, se necesitan los siguientes datos: el módulo de volumen y la densidad.  
+      La operación consiste en dividir el módulo de volumen entre la densidad, y luego calcular la raíz cuadrada del resultado.  
+      De esta manera, se obtiene la rapidez de la onda sonora.</p>
+      <p>Ingresa acontinuacion los datos y obten inmediatamente el resultado, además, podras visualizar una grafica generada a partir de estos datos. </p>
     <div class="calculo" id="onda-sonora">
       <h3>📌 Rapidez de onda sonora</h3>
 
@@ -164,7 +172,10 @@
 
     <hr style="margin: 2rem 0;">
     <p><b>- seccion de cálculo de rapidez de sonido en un solido:</b></p>
-
+    <p>Para hallar la rapidez del sonido en un solido, se necesitan los siguientes datos: el módulo de Young y la densidad.  
+      La operación consiste en dividir el módulo de Young entre la densidad, y luego calcular la raíz cuadrada del resultado.  
+      De esta manera, se obtiene la rapidez del sonido en un solido.</p>
+      <p>Ingresa acontinuacion los datos y obten inmediatamente el resultado, además, podras visualizar una grafica generada a partir de estos datos. </p>
     <div class="calculo" id="rapidez-sonido-solido">
       <h3>📌 Rapidez del sonido en un sólido</h3>
       <label for="modulo">Módulo de Young (Pa):</label>
