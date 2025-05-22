@@ -134,13 +134,13 @@
       <h3>📌 Amplitud de presión</h3>
   
       <label for="moduloVolumen">Módulo de volumen (Pa):</label>
-      <input type="number" id="moduloVolumen" step="1000" value="142000">
+      <input type="number" id="moduloVolumen" step="1000" value="142000" min="0">
     
       <label for="amplitudDesplazamiento">Amplitud de desplazamiento (m):</label>
       <input type="number" id="amplitudDesplazamiento" step="0.0001" value="0.01">
     
       <label for="numeroOnda">Número de onda (rad/m):</label>
-      <input type="number" id="numeroOnda" step="0.01" value="10">
+      <input type="number" id="numeroOnda" step="0.01" value="10" min="0">
     
       <p id="resultado"><strong>Resultado:</strong> <span id="resultadoPresion">-</span> Pa</p>
       <canvas id="graficoPresion" width="600" height="300"></canvas>
@@ -281,6 +281,14 @@ function calcularPresion() {
     });
   }
 }
+// este codigo controla que el usuario no ingrese valores negativos.
+document.getElementById('moduloVolumen').addEventListener('input', function () {
+  if (this.value < 0) this.value = 0;
+});
+
+document.getElementById('numeroOnda').addEventListener('input', function () {
+  if (this.value < 0) this.value = 0;
+});
 // Cálculo de rapidez de onda sonora: v = sqrt(B / ρ)
 function calcularRapidez() {
   const B = parseFloat(document.getElementById('moduloVolumen2').value);
