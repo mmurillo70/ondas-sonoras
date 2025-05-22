@@ -168,12 +168,13 @@
     <div class="calculo" id="rapidez-sonido-solido">
       <h3>📌 Rapidez del sonido en un sólido</h3>
       <label for="modulo">Módulo de Young (Pa):</label>
-      <input type="number" id="modulo" step="1000000" value="2e11">
+      <input type="number" id="modulo" step="1000000" value="216597555">
 
       <label for="densidadSolido">Densidad del sólido (kg/m³):</label>
-      <input type="number" id="densidadSolido" step="10" value="7800">
+      <input type="number" id="densidadSolido" step="10" value="7810">
 
       <p id="resultado"><strong>Resultado:</strong> <span id="resultadoSolido">-</span> m/s</p>
+      <canvas id="graficoSolido" width="600" height="300"></canvas>
     </div>
   </section>
 
@@ -359,29 +360,84 @@ function calcularRapidez() {
     });
   }
 }
+document.getElementById('moduloVolumen2').addEventListener('input', function () {
+  if (this.value < 0) this.value = 0;
+  calcularRapidez();
+});
 
+document.getElementById('densidad').addEventListener('input', function () {
+  if (this.value < 0) this.value = 0;
+  calcularRapidez();
+});
 
     // Cálculo de rapidez en un sólido: v = sqrt(E / ρ)
-    function calcularSolido() {
-      const E = parseFloat(document.getElementById('modulo').value);
-      const rho = parseFloat(document.getElementById('densidadSolido').value);
-      const v = Math.sqrt(E / rho);
-      document.getElementById('resultadoSolido').textContent = v.toFixed(2);
-    }
+let graficoSolido;
+
+function calcularRapidezSolido() {
+  const E = parseFloat(document.getElementById('modulo').value);
+  const rho = parseFloat(document.getElementById('densidadSolido').value);
+  const rapidez = Math.sqrt(E / rho);
+
+  document.getElementById('resultadoSolido').textContent = rapidez.toFixed(2);
+
+  // Crear datos ficticios para representar una onda longitudinal en sólido
+  const labels = [];
+  const data = [];
+  for (let i = 0; i < 100; i++) {
+    const x = i / 100 * 2 * Math.PI;
+    labels.push(x.toFixed(2));
+    data.push(Math.sin(rapidez * x / 100)); // Simulación gráfica con rapidez
+  }
+
+  if (graficoSolido) {
+    graficoSolido.data.labels = labels;
+    graficoSolido.data.datasets[0].data = data;
+    graficoSolido.update();
+  } else {
+    const ctxSolido = document.getElementById('graficoSolido').getContext('2d');
+    graficoSolido = new Chart(ctxSolido, {
+      type: 'line',
+      data: {
+        labels: labels,
+        datasets: [{
+          label: 'Propagación en Sólido (Longitudinal)',
+          data: data,
+          borderColor: 'green',
+          fill: false,
+          tension: 0.2
+        }]
+      },
+      options: {
+        scales: {
+          x: {
+            title: { display: true, text: 'Posición (rad)' }
+          },
+          y: {
+            title: { display: true, text: 'Intensidad relativa' }
+          }
+        }
+      }
+    });
+  }
+}
+
+document.getElementById('modulo').addEventListener('input', calcularRapidezSolido);
+document.getElementById('densidadSolido').addEventListener('input', calcularRapidezSolido);
 
     // Escucha eventos de cambio en todos los campos de entrada
     document.querySelectorAll('.calculadora-sonora input').forEach(input => {
       input.addEventListener('input', () => {
         calcularPresion();
         calcularRapidez();
-        calcularSolido();
+        calcularRapidezSolido();
       });
     });
 
     // Calcular valores iniciales
+    
     calcularPresion();
     calcularRapidez();
-    calcularSolido();
+    calcularRapidezSolido();
 
 
     document.getElementById('frecuencia').addEventListener('input', actualizarGrafica);
