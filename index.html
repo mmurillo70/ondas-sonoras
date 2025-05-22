@@ -143,6 +143,7 @@
       <input type="number" id="numeroOnda" step="0.01" value="10">
     
       <p id="resultado"><strong>Resultado:</strong> <span id="resultadoPresion">-</span> Pa</p>
+      <canvas id="graficoPresion" width="600" height="300"></canvas>
     </div>
 
     <hr style="margin: 2rem 0;">
@@ -230,12 +231,55 @@
       chart.update();
     };
    // Cálculo de amplitud de presión: p = B × s × k
+
+let graficoPresion;
+
 function calcularPresion() {
   const B = parseFloat(document.getElementById('moduloVolumen').value);
   const s = parseFloat(document.getElementById('amplitudDesplazamiento').value);
   const k = parseFloat(document.getElementById('numeroOnda').value);
   const presion = B * s * k;
   document.getElementById('resultadoPresion').textContent = presion.toFixed(2);
+
+  // Datos de ejemplo para representar visualmente la presión (onda)
+  const labels = [];
+  const data = [];
+  for (let i = 0; i < 100; i++) {
+    const x = i / 100 * 2 * Math.PI;
+    labels.push(x.toFixed(2));
+    data.push(presion * Math.sin(k * x)); // Representación visual basada en k y presión
+  }
+
+  if (graficoPresion) {
+    graficoPresion.data.labels = labels;
+    graficoPresion.data.datasets[0].data = data;
+    graficoPresion.update();
+  } else {
+    const ctxPresion = document.getElementById('graficoPresion').getContext('2d');
+    graficoPresion = new Chart(ctxPresion, {
+      type: 'line',
+      data: {
+        labels: labels,
+        datasets: [{
+          label: 'Variación de Presión (Pa)',
+          data: data,
+          borderColor: 'red',
+          fill: false,
+          tension: 0.2
+        }]
+      },
+      options: {
+        scales: {
+          x: {
+            title: { display: true, text: 'Tiempo (rad)' }
+          },
+          y: {
+            title: { display: true, text: 'Presión (Pa)' }
+          }
+        }
+      }
+    });
+  }
 }
 // Cálculo de rapidez de onda sonora: v = sqrt(B / ρ)
 function calcularRapidez() {
